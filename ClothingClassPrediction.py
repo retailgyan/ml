@@ -22,7 +22,7 @@ def predict_task():
         abort(400)
     imgPath =  request.json['imgPath']
     preds = predict(imgPath)
-    return preds, 201
+    return jsonify(preds), 201
 
 if __name__ == '__main__':
     app.run(debug=True)
