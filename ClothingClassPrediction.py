@@ -1,8 +1,11 @@
+from flask import request
 from fastai import *
 from fastai.vision import *
 import sys
 
 path = Path('/data/cloth_categories')
+
+   
 def predict(imagePath):
 
     classes = ['Blouse', 'Blazer', 'Button-Down', 'Bomber', 'Anorak', 'Tee', 'Tank', 'Top', 'Sweater', 'Flannel', 'Hoodie', 'Cardigan', 'Jacket', 'Henley', 'Poncho', 'Jersey', 'Turtleneck', 'Parka', 'Peacoat', 'Halter', 'Skirt', 'Shorts', 'Jeans', 'Joggers', 'Sweatpants', 'Jeggings', 'Cutoffs', 'Sweatshorts', 'Leggings', 'Culottes', 'Chinos', 'Trunks', 'Sarong', 'Gauchos', 'Jodhpurs', 'Capris', 'Dress', 'Romper', 'Coat', 'Kimono', 'Jumpsuit', 'Robe', 'Caftan', 'Kaftan', 'Coverup', 'Onesie']
@@ -13,10 +16,12 @@ def predict(imagePath):
     predictions = sorted(zip(classes, map(float, losses)), key=lambda p: p[1], reverse=True)
     return predictions
 
-if __name__ == "__main__":
-    imagePath = sys.argv[0]
-    preds = predict(imagePath)
-    print(preds)
-
+@app.route('/retailGyan/api/v1.0/predict', methods=['POST'])
+def predict_task():
+    if not request.json or not 'imgPath' in request.json:
+        abort(400)
+    imgPath =  request.json['imgPath']
+    preds = predict(imgPath)
+    return preds, 201
 
 
