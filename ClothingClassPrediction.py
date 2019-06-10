@@ -21,7 +21,7 @@ def predict(imagePath):
         data = json.load(f)
     
     newObj = {'imgsrc': imagePath, 'category': predictions[0]}
-    data.apend(newObj)
+    data.append(newObj)
 
     with open(dBFilePath, 'w') as f:
         json.dump(data, f)
