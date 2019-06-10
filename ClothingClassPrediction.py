@@ -4,8 +4,8 @@ from fastai.vision import *
 import sys
 
 path = Path('/data/cloth_categories')
+app = Flask(__name__)
 
-   
 def predict(imagePath):
 
     classes = ['Blouse', 'Blazer', 'Button-Down', 'Bomber', 'Anorak', 'Tee', 'Tank', 'Top', 'Sweater', 'Flannel', 'Hoodie', 'Cardigan', 'Jacket', 'Henley', 'Poncho', 'Jersey', 'Turtleneck', 'Parka', 'Peacoat', 'Halter', 'Skirt', 'Shorts', 'Jeans', 'Joggers', 'Sweatpants', 'Jeggings', 'Cutoffs', 'Sweatshorts', 'Leggings', 'Culottes', 'Chinos', 'Trunks', 'Sarong', 'Gauchos', 'Jodhpurs', 'Capris', 'Dress', 'Romper', 'Coat', 'Kimono', 'Jumpsuit', 'Robe', 'Caftan', 'Kaftan', 'Coverup', 'Onesie']
@@ -24,4 +24,6 @@ def predict_task():
     preds = predict(imgPath)
     return preds, 201
 
+if __name__ == '__main__':
+    app.run(debug=True)
 
