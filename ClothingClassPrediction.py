@@ -14,7 +14,7 @@ def predict(imagePath):
     learn.load('stage-1_sz-150')
     _, _, losses = learn.predict(open_image(imagePath))
     predictions = sorted(zip(classes, map(float, losses)), key=lambda p: p[1], reverse=True)
-    return predictions
+    return predictions[:1]
 
 @app.route('/retailGyan/api/v1.0/predict', methods=['POST'])
 def predict_task():
