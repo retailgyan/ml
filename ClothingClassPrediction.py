@@ -4,6 +4,7 @@ from fastai.vision import *
 import sys
 
 path = Path('data/cloth_categories')
+dBFilePath = '/home/azure/data.json'
 app = Flask(__name__)
 
 def predict(imagePath):
@@ -14,15 +15,19 @@ def predict(imagePath):
     learn.load('stage-1_sz-150')
     _, _, losses = learn.predict(open_image(imagePath))
     predictions = sorted(zip(classes, map(float, losses)), key=lambda p: p[1], reverse=True)
-    return predictions[:1]
+    with open(dBFilePath, mode='w', encoding='utf-8') as feedsjson:
+        entry = {'imgsrc': imagePath, 'category': predictions[0]}
+        feeds.append(entry)
+        json.dump(feeds, feedsjson)
+
 
 @app.route('/retailGyan/api/v1.0/predict', methods=['POST'])
 def predict_task():
     if not request.json or not 'imgPath' in request.json:
         abort(400)
     imgPath =  request.json['imgPath']
-    preds = predict(imgPath)
-    return jsonify(preds), 201
+    predict(imgPath)
+    return jsonify("OK"), 201
 
 if __name__ == '__main__':
     app.run(debug=True)
