@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, Flask,jsonify
 from fastai import *
 from fastai.vision import *
 import sys
