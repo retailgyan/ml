@@ -20,8 +20,8 @@ def predict(imagePath):
     with open(dBFilePath) as f:
         data = json.load(f)
     
-    a_dict = {'imgsrc': imagePath, 'category': predictions[0]}
-    data.update(a_dict)
+    newObj = {'imgsrc': imagePath, 'category': predictions[0]}
+    data = data + newObj
 
     with open(dBFilePath, 'w') as f:
         json.dump(data, f)
