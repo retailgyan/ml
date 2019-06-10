@@ -2,6 +2,7 @@ from flask import request, Flask,jsonify
 from fastai import *
 from fastai.vision import *
 import sys
+import json
 
 path = Path('data/cloth_categories')
 dBFilePath = '/home/azure/data.json'
