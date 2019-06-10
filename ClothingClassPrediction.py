@@ -16,10 +16,15 @@ def predict(imagePath):
     learn.load('stage-1_sz-150')
     _, _, losses = learn.predict(open_image(imagePath))
     predictions = sorted(zip(classes, map(float, losses)), key=lambda p: p[1], reverse=True)
-    with open(dBFilePath, mode='w', encoding='utf-8') as feedsjson:
-        entry = {'imgsrc': imagePath, 'category': predictions[0]}
-        feeds.append(entry)
-        json.dump(feeds, feedsjson)
+   
+    with open(dBFilePath) as f:
+        data = json.load(f)
+    
+    a_dict = {'imgsrc': imagePath, 'category': predictions[0]}
+    data.update(a_dict)
+
+    with open(dBFilePath, 'w') as f:
+        json.dump(data, f)
 
 
 @app.route('/retailGyan/api/v1.0/predict', methods=['POST'])
