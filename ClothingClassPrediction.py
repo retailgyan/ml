@@ -16,11 +16,11 @@ def predict(imagePath):
     learn.load('stage-1_sz-150')
     _, _, losses = learn.predict(open_image(imagePath))
     predictions = sorted(zip(classes, map(float, losses)), key=lambda p: p[1], reverse=True)
-    filename, file_extension = os.path.splitext(imagePath)
+   
     with open(dBFilePath) as f:
         data = json.load(f)
     
-    newObj = {'imgsrc': 'assets/'+filename+file_extension, 'category': predictions[0][0]}
+    newObj = {'imgsrc': 'assets/'+os.path.basename(imagePath), 'category': predictions[0][0]}
     data.append(newObj)
 
     with open(dBFilePath, 'w') as f:
